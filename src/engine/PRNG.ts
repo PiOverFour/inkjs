@@ -1,17 +1,25 @@
-// Taken from https://gist.github.com/blixt/f17b47c62508be59987b
+// Taken from https://github.com/bryc/code/blob/master/jshash/PRNGs.md
 // Ink uses a seedable PRNG of which there is none in native javascript.
 export class PRNG{
 
-	private seed: number;
+	private a: number;
+	private b: number;
 
 	constructor(seed: number){
-		this.seed = seed % 2147483647;
-		if (this.seed <= 0) this.seed += 2147483646;
-	}
+		this.a = seed;
+		this.b = seed;
+		let r = Math.imul(this.a, 0x9E3779BB); r = (r << 5 | r >>> 27) * 5;
+		this.b = this.b ^ this.a; this.a = this.b ^ (this.a << 26 | this.a >>> 6) ^ this.b << 9;
+		this.b = this.b << 13 | this.b >>> 19;
+}
+
 	public next(): number{
-		return this.seed = this.seed * 16807 % 2147483647;
+		let r = Math.imul(this.a, 0x9E3779BB); r = (r << 5 | r >>> 27) * 5;
+		this.b = this.b ^ this.a; this.a = this.b ^ (this.a << 26 | this.a >>> 6) ^ this.b << 9;
+		this.b = this.b << 13 | this.b >>> 19;
+		return (r >>> 0) ;
 	}
 	public nextFloat(): number{
-		return (this.next() - 1) / 2147483646;
+		return this.next() / 4294967296;
 	}
 }
