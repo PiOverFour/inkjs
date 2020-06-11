@@ -43,6 +43,6 @@ describe('Sequences', () => {
 	it('tests all sequence type', () => {
 		loadStory('all_sequence_types');
 
-		expect(story.ContinueMaximally()).toBe('Once: one two\nStopping: one two two two\nDefault: one two two two\nCycle: one two one two\nShuffle: two one one two\nShuffle stopping: one two final final\nShuffle once: two one\n');
+		expect(story.ContinueMaximally()).toBe('Once: one two\nStopping: one two two two\nDefault: one two two two\nCycle: one two one two\nShuffle: two one two one\nShuffle stopping: two one final final\nShuffle once: one two\n');
 	});
 });

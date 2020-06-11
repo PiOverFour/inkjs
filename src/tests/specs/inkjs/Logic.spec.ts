@@ -154,7 +154,7 @@ describe('Logic', () => {
 	it('should generate random numbers', () => {
 		story.ChoosePathString('logic.random');
 
-		expect(story.Continue()).toEqual('15\n');
-		expect(story.Continue()).toEqual('-24\n');
+		expect(story.Continue()).toEqual('39\n');
+		expect(story.Continue()).toEqual('16\n');
 	});
 });
