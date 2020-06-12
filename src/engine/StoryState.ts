@@ -208,7 +208,7 @@ export class StoryState {
   private _currentTurnIndex: number = 0;
 
   public storySeed: number = 0;
-  public previousRandom: number = 0;
+  public PRNG: PRNG;
   public didSafeExit: boolean = false;
 
   public story: Story;
@@ -352,7 +352,7 @@ export class StoryState {
 
     let timeSeed = new Date().getTime();
     this.storySeed = new PRNG(timeSeed).next() % 100;
-    this.previousRandom = 0;
+    this.PRNG = new PRNG(timeSeed);
 
     this._currentChoices = [];
 
@@ -403,7 +403,7 @@ export class StoryState {
 
     copy.currentTurnIndex = this.currentTurnIndex;
     copy.storySeed = this.storySeed;
-    copy.previousRandom = this.previousRandom;
+    copy.PRNG = new PRNG(this.PRNG.seed);
 
     copy.didSafeExit = this.didSafeExit;
 
@@ -511,7 +511,7 @@ export class StoryState {
 
     writer.WriteIntProperty("turnIdx", this.currentTurnIndex);
     writer.WriteIntProperty("storySeed", this.storySeed);
-    writer.WriteIntProperty("previousRandom", this.previousRandom);
+    writer.WriteIntProperty("previousRandom", this.PRNG.seed);
 
     writer.WriteIntProperty("inkSaveVersion", this.kInkSaveStateVersion);
 
@@ -567,7 +567,7 @@ export class StoryState {
     );
     this.currentTurnIndex = parseInt(jObject["turnIdx"]);
     this.storySeed = parseInt(jObject["storySeed"]);
-    this.previousRandom = parseInt(jObject["previousRandom"]);
+    this.PRNG = new PRNG(parseInt(jObject["previousRandom"]));
 
     // var jChoiceThreads = jObject["choiceThreads"] as JObject;
     let jChoiceThreads = jObject["choiceThreads"] as Record<string, any>;
