@@ -350,8 +350,8 @@ export class StoryState {
     this._turnIndices = new Map();
     this.currentTurnIndex = -1;
 
-    let timeSeed = new Date().getTime();
-    this.storySeed = new PRNG(timeSeed).next() % 100;
+    let timeSeed = Date.now();
+    this.storySeed = timeSeed;
     this.PRNG = new PRNG(timeSeed);
 
     this._currentChoices = [];
